@@ -8,11 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
-/* ============================================================
-   DANAM — Fashion E-Commerce Stylesheet
-   ============================================================ */
-
-/* ---- CSS Variables ---- */
 :root {
   --color-bg: #fafaf8;
   --color-surface: #ffffff;
@@ -85,9 +80,7 @@ address { font-style: normal; }
 .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: var(--color-dark); letter-spacing: -0.02em; }
 .products__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 28px; }
 
-/* ============================================================
-   CARD — KEY FIX: image never crops, shows 100% always
-   ============================================================ */
+/* CARD */
 .card {
   background: var(--color-surface);
   border-radius: var(--radius-md);
@@ -98,34 +91,95 @@ address { font-style: normal; }
 }
 .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
 
-/* The wrapper has NO fixed height, NO aspect-ratio.
-   It grows to exactly fit the image's natural height. */
 .card__img-wrap {
   position: relative;
   overflow: hidden;
   background: #f0ece5;
   width: 100%;
-  /* NO aspect-ratio, NO height, NO min-height */
 }
 
-/* Image fills width, height is AUTO = natural proportions, zero cropping */
 .card__img-wrap img {
   width: 100%;
-  height: auto;          /* ← CRITICAL: natural height, never crops */
+  height: auto;
   display: block;
-  object-fit: unset;     /* ← remove any object-fit behavior */
+  object-fit: unset;
   transition: transform 0.55s ease;
 }
 .card:hover .card__img-wrap img { transform: scale(1.07); }
 
-.card__badge { position: absolute; top: 14px; left: 14px; background: var(--color-accent); color: #fff; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; }
+.card__badge { position: absolute; top: 14px; left: 14px; background: var(--color-accent); color: #fff; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; z-index: 1; }
+
+/* Low-stock badge on card */
+.card__low-stock-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #fff3cd;
+  border: 1.5px solid #f0c040;
+  color: #8a6000;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  z-index: 1;
+}
+
 .card__body { padding: 18px 20px 22px; }
 .card__name { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: var(--color-dark); }
-.card__price { font-size: 1.1rem; font-weight: 700; color: var(--color-accent); margin-bottom: 16px; }
+.card__price { font-size: 1.1rem; font-weight: 700; color: var(--color-accent); margin-bottom: 10px; }
+
+/* Card size availability pills */
+.card__sizes {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.card__size-pip {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 4px;
+  border: 1.5px solid;
+  letter-spacing: 0.03em;
+}
+.card__size-pip.in-stock {
+  border-color: #c9a96e;
+  color: #8a6000;
+  background: #fdf6e8;
+}
+.card__size-pip.out-of-stock {
+  border-color: #ddd;
+  color: #bbb;
+  background: #f7f7f7;
+  text-decoration: line-through;
+}
+
 .btn--cart { width: 100%; padding: 11px 16px; border-radius: var(--radius-sm); border: 2px solid var(--color-dark); background: transparent; color: var(--color-dark); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background var(--transition), color var(--transition), border-color var(--transition); }
 .btn--cart:hover { background: var(--color-dark); color: #fff; }
 .btn--cart.added { background: #2a9d2a; border-color: #2a9d2a; color: #fff; }
 .btn--cart svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+/* Fully out-of-stock card button */
+.btn--oos {
+  width: 100%;
+  padding: 11px 16px;
+  border-radius: var(--radius-sm);
+  border: 2px solid #ccc;
+  background: #f5f5f5;
+  color: #999;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: not-allowed;
+}
 
 /* ============================================================ CART SIDEBAR */
 .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.52); z-index: 1100; opacity: 0; pointer-events: none; transition: opacity var(--transition); }
@@ -179,9 +233,7 @@ address { font-style: normal; }
 .footer__bottom { border-top: 1px solid rgba(255,255,255,0.08); padding: 20px 0; text-align: center; }
 .footer__bottom p { font-size: 0.8rem; }
 
-/* ============================================================
-   PRODUCT MODAL — GALLERY VERSION
-   ============================================================ */
+/* ============================================================ PRODUCT MODAL */
 .product-modal {
   position: fixed;
   inset: 0;
@@ -190,9 +242,7 @@ address { font-style: normal; }
   align-items: center;
   justify-content: center;
 }
-.product-modal.active {
-  display: flex;
-}
+.product-modal.active { display: flex; }
 
 .product-modal__overlay {
   position: absolute;
@@ -215,7 +265,6 @@ address { font-style: normal; }
   box-shadow: 0 32px 80px rgba(0,0,0,0.35);
 }
 
-/* Close button */
 .modal-close {
   position: absolute;
   top: 14px;
@@ -238,7 +287,6 @@ address { font-style: normal; }
 }
 .modal-close:hover { background: #111; color: #fff; }
 
-/* Two-column layout */
 .modal-layout {
   display: flex;
   flex: 1;
@@ -246,7 +294,6 @@ address { font-style: normal; }
   min-height: 0;
 }
 
-/* LEFT — gallery */
 .modal-gallery {
   width: 55%;
   flex-shrink: 0;
@@ -256,25 +303,24 @@ address { font-style: normal; }
   overflow: hidden;
 }
 
-/* Main viewer */
 .gallery-main {
   position: relative;
   width: 100%;
-  /* Use aspect-ratio to ensure the container is tall enough for pants */
-  aspect-ratio: 3 / 4; 
-  background-color: #f9f9f9; /* Subtle background for areas not covered by the image */
+  aspect-ratio: 2 / 3;
+  background-color: #f4f0ea;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1;
+  min-height: 0;
 }
 
-.gallery-main img, 
+.gallery-main img,
 .gallery-main video {
   width: 100%;
   height: 100%;
-  /* CHANGED: 'contain' ensures the whole image fits without cropping */
-  object-fit: contain; 
+  object-fit: contain;
   display: block;
 }
 
@@ -283,7 +329,6 @@ address { font-style: normal; }
   background: #000;
 }
 
-/* Media label */
 .gallery-main-label {
   position: absolute;
   bottom: 10px;
@@ -299,7 +344,6 @@ address { font-style: normal; }
   pointer-events: none;
 }
 
-/* Nav arrows */
 .gallery-arrow {
   position: absolute;
   top: 50%;
@@ -323,7 +367,6 @@ address { font-style: normal; }
 .gallery-arrow--next { right: 10px; }
 .gallery-arrow svg { width: 16px; height: 16px; }
 
-/* Thumbnails strip */
 .gallery-thumbs {
   display: flex;
   gap: 6px;
@@ -359,7 +402,6 @@ address { font-style: normal; }
   pointer-events: none;
 }
 
-/* Video thumb icon overlay */
 .thumb-play-icon {
   position: absolute;
   inset: 0;
@@ -409,14 +451,12 @@ address { font-style: normal; }
   margin-bottom: 16px;
 }
 
-/* Divider */
 .modal-divider {
   height: 1px;
   background: var(--color-border);
   margin: 10px 0 16px;
 }
 
-/* Description */
 .modal-description {
   font-size: 0.875rem;
   color: var(--color-mid);
@@ -424,7 +464,6 @@ address { font-style: normal; }
   margin-bottom: 16px;
 }
 
-/* Feature tags */
 .modal-features {
   display: flex;
   flex-wrap: wrap;
@@ -442,7 +481,6 @@ address { font-style: normal; }
   background: #fafafa;
 }
 
-/* Size selector */
 .modal-size-label {
   font-size: 0.78rem;
   font-weight: 700;
@@ -452,13 +490,19 @@ address { font-style: normal; }
   margin-bottom: 10px;
 }
 
+/* ============================================================
+   SIZE BUTTONS — per-size OOS logic
+   ============================================================ */
 .size-options {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
+
+/* Base size button */
 .size-options button {
+  position: relative;
   padding: 8px 16px;
   border: 1.5px solid #ccc;
   background: white;
@@ -470,9 +514,93 @@ address { font-style: normal; }
   transition: all 0.2s ease;
   min-width: 48px;
   text-align: center;
+  color: #111;
 }
-.size-options button:hover { border-color: #000; }
-.size-options button.active { background: black; color: white; border-color: black; }
+.size-options button:hover:not(.size-oos):not(.active) {
+  border-color: #000;
+}
+.size-options button.active {
+  background: black;
+  color: white;
+  border-color: black;
+}
+
+/* Per-size OOS button */
+.size-options button.size-oos {
+  border-color: #e0e0e0;
+  background: #f5f5f5;
+  color: #bbb;
+  cursor: not-allowed;
+  /* Diagonal strikethrough line */
+  overflow: hidden;
+}
+.size-options button.size-oos::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: #ccc;
+  transform: rotate(-20deg);
+  pointer-events: none;
+}
+.size-options button.size-oos:hover {
+  border-color: #e0e0e0;
+}
+
+/* Size legend */
+.size-legend {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+  font-size: 0.7rem;
+  color: var(--color-light);
+  align-items: center;
+}
+.size-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.size-legend__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+.size-legend__dot.in  { background: #111; }
+.size-legend__dot.oos { background: #e0e0e0; border: 1px solid #ccc; }
+
+/* Low stock warning in modal */
+.modal-low-stock-note {
+  font-size: 0.72rem;
+  color: #8a6000;
+  background: #fff8e1;
+  border: 1.5px solid #f0c040;
+  border-radius: 6px;
+  padding: 6px 12px;
+  margin-bottom: 14px;
+  font-weight: 600;
+  display: none;
+}
+.modal-low-stock-note.visible { display: block; }
+
+/* Notify chip for selected OOS size */
+.modal-size-oos-note {
+  font-size: 0.72rem;
+  color: #c0392b;
+  background: #fff3f3;
+  border: 1.5px solid #ffcccc;
+  border-radius: 6px;
+  padding: 6px 12px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+.modal-size-oos-note.visible { display: flex; }
+.modal-size-oos-note svg { width: 13px; height: 13px; flex-shrink: 0; }
 
 .modal-add-btn {
   width: 100%;
@@ -490,156 +618,64 @@ address { font-style: normal; }
   transition: background var(--transition), transform var(--transition);
   margin-top: auto;
 }
-.modal-add-btn:hover { background: var(--color-accent); transform: translateY(-2px); }
+.modal-add-btn:hover:not(:disabled) { background: var(--color-accent); transform: translateY(-2px); }
+.modal-add-btn:disabled {
+  background: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+  transform: none !important;
+}
 
-/* Fullscreen image lightbox */
-.img-lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.92);
-  z-index: 3500;
+/* Notify me button */
+.modal-notify-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 2px solid var(--color-border);
+  color: var(--color-mid);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all var(--transition);
+  margin-top: 8px;
   display: none;
   align-items: center;
   justify-content: center;
+  gap: 6px;
 }
+.modal-notify-btn.visible { display: flex; }
+.modal-notify-btn:hover { border-color: var(--color-dark); color: var(--color-dark); }
+
+/* Fullscreen image lightbox */
+.img-lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 3500; display: none; align-items: center; justify-content: center; }
 .img-lightbox.active { display: flex; }
 .img-lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 8px; object-fit: contain; }
 .img-lightbox__close { position: absolute; top: 20px; right: 24px; font-size: 2.5rem; color: #fff; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
 .img-lightbox__close:hover { opacity: 1; }
 
-/* ============================================================
-   INSTAGRAM COPY POPUP
-   ============================================================ */
-.insta-popup-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.65);
-  backdrop-filter: blur(6px);
-  z-index: 4000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-}
+/* ============================================================ INSTAGRAM POPUP */
+.insta-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(6px); z-index: 4000; display: none; align-items: center; justify-content: center; padding: 16px; }
 .insta-popup-overlay.active { display: flex; }
-
-.insta-popup {
-  background: #fff;
-  border-radius: 20px;
-  width: 100%;
-  max-width: 460px;
-  padding: 28px 28px 24px;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.3);
-  position: relative;
-  animation: popupIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
-}
-@keyframes popupIn {
-  from { opacity: 0; transform: scale(0.88) translateY(20px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.insta-popup__close {
-  position: absolute;
-  top: 14px; right: 16px;
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: #f0f0f0;
-  border: none;
-  cursor: pointer;
-  font-size: 1.3rem;
-  display: flex; align-items: center; justify-content: center;
-  color: #555;
-  transition: background 0.2s, color 0.2s;
-}
+.insta-popup { background: #fff; border-radius: 20px; width: 100%; max-width: 460px; padding: 28px 28px 24px; box-shadow: 0 24px 60px rgba(0,0,0,0.3); position: relative; animation: popupIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes popupIn { from { opacity: 0; transform: scale(0.88) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.insta-popup__close { position: absolute; top: 14px; right: 16px; width: 32px; height: 32px; border-radius: 50%; background: #f0f0f0; border: none; cursor: pointer; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; color: #555; transition: background 0.2s, color 0.2s; }
 .insta-popup__close:hover { background: #111; color: #fff; }
-
-.insta-popup__icon {
-  width: 48px; height: 48px;
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-  border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 14px;
-}
+.insta-popup__icon { width: 48px; height: 48px; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
 .insta-popup__icon svg { width: 26px; height: 26px; color: #fff; }
-
-.insta-popup h3 {
-  font-size: 1.05rem;
-  font-weight: 800;
-  margin-bottom: 6px;
-  color: #111;
-}
-.insta-popup p {
-  font-size: 0.82rem;
-  color: #666;
-  line-height: 1.65;
-  margin-bottom: 14px;
-}
-
-.insta-popup__summary {
-  background: #f7f5f2;
-  border: 1.5px solid #e8e5e0;
-  border-radius: 10px;
-  padding: 14px 16px;
-  font-size: 0.8rem;
-  color: #333;
-  line-height: 1.75;
-  white-space: pre-wrap;
-  word-break: break-word;
-  max-height: 180px;
-  overflow-y: auto;
-  margin-bottom: 14px;
-  scrollbar-width: thin;
-}
-
-.insta-popup__actions {
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
-}
-
-.insta-popup__copy-btn {
-  width: 100%;
-  padding: 13px;
-  border-radius: 8px;
-  border: 2px solid #111;
-  background: #fff;
-  color: #111;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
+.insta-popup h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; color: #111; }
+.insta-popup p { font-size: 0.82rem; color: #666; line-height: 1.65; margin-bottom: 14px; }
+.insta-popup__summary { background: #f7f5f2; border: 1.5px solid #e8e5e0; border-radius: 10px; padding: 14px 16px; font-size: 0.8rem; color: #333; line-height: 1.75; white-space: pre-wrap; word-break: break-word; max-height: 180px; overflow-y: auto; margin-bottom: 14px; scrollbar-width: thin; }
+.insta-popup__actions { display: flex; gap: 10px; flex-direction: column; }
+.insta-popup__copy-btn { width: 100%; padding: 13px; border-radius: 8px; border: 2px solid #111; background: #fff; color: #111; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer; font-family: inherit; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .insta-popup__copy-btn:hover { background: #111; color: #fff; }
 .insta-popup__copy-btn.copied { background: #2a9d2a; border-color: #2a9d2a; color: #fff; }
-
-.insta-popup__proceed-btn {
-  width: 100%;
-  padding: 13px;
-  border-radius: 8px;
-  border: none;
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-  color: #fff;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  cursor: pointer;
-  font-family: inherit;
-  transition: opacity 0.2s, transform 0.2s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
+.insta-popup__proceed-btn { width: 100%; padding: 13px; border-radius: 8px; border: none; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer; font-family: inherit; transition: opacity 0.2s, transform 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .insta-popup__proceed-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-
-.insta-popup__note {
-  font-size: 0.72rem;
-  color: #999;
-  text-align: center;
-  margin-top: 10px;
-}
+.insta-popup__note { font-size: 0.72rem; color: #999; text-align: center; margin-top: 10px; }
 
 /* ============================================================ RESPONSIVE */
 @media (max-width: 900px) {
@@ -656,10 +692,9 @@ address { font-style: normal; }
   .nav__link::after { display: none; }
   .products__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .hero__title { font-size: 2.4rem; }
-
-  /* Modal stacks vertically on tablet */
   .modal-layout { flex-direction: column; overflow-y: auto; }
-  .modal-gallery { width: 100%; height: auto; aspect-ratio: 4/5; max-height: 60vh; flex-shrink: 0; }
+  .modal-gallery { width: 100%; flex-shrink: 0; height: auto; }
+  .gallery-main { aspect-ratio: 3 / 4; max-height: 65vw; min-height: 240px; flex: none; }
   .gallery-main img, .gallery-main video { object-fit: contain; background: #f4f0ea; }
   .modal-info { padding: 20px 18px 18px; }
 }
@@ -671,12 +706,10 @@ address { font-style: normal; }
   .hero__sub { font-size: 0.95rem; }
   .footer__inner { grid-template-columns: 1fr; gap: 28px; }
   .footer__brand { grid-column: auto; }
-
   .product-modal__content { width: 100%; max-width: 100%; border-radius: 18px 18px 0 0; max-height: 96vh; position: absolute; bottom: 0; }
   .product-modal { align-items: flex-end; }
-  .modal-gallery { height: auto; aspect-ratio: 3/4; max-height: 55vh; }
+  .gallery-main { aspect-ratio: unset; height: 62vw; min-height: 220px; max-height: none; }
   .gallery-main img, .gallery-main video { object-fit: contain; background: #f4f0ea; }
-
   .insta-popup { padding: 22px 18px 20px; }
 }
     </style>
@@ -746,7 +779,7 @@ address { font-style: normal; }
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <!-- ========== PRODUCT MODAL (GALLERY) ========== -->
+    <!-- ========== PRODUCT MODAL ========== -->
     <div class="product-modal" id="productModal" role="dialog" aria-modal="true" aria-label="Product details">
       <div class="product-modal__overlay" id="modalOverlay"></div>
       <div class="product-modal__content">
@@ -756,7 +789,6 @@ address { font-style: normal; }
           <!-- LEFT: Gallery -->
           <div class="modal-gallery">
             <div class="gallery-main" id="galleryMain">
-              <!-- filled by JS -->
               <span class="gallery-main-label" id="galleryLabel"></span>
               <button class="gallery-arrow gallery-arrow--prev" id="galleryPrev" aria-label="Previous">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -776,14 +808,39 @@ address { font-style: normal; }
             <div class="modal-divider"></div>
             <p class="modal-description" id="modalDescription"></p>
             <div class="modal-features" id="modalFeatures"></div>
+
             <p class="modal-size-label">Select Size</p>
-            <div class="size-options" id="sizeOptions">
-              <button data-size="28">28</button>
-              <button data-size="30">30</button>
-              <button data-size="32">32</button>
-              <button data-size="34">34</button>
+
+            <!-- Size legend -->
+            <div class="size-legend">
+              <div class="size-legend__item">
+                <div class="size-legend__dot in"></div>
+                <span>Available</span>
+              </div>
+              <div class="size-legend__item">
+                <div class="size-legend__dot oos"></div>
+                <span>Out of stock</span>
+              </div>
             </div>
+
+            <div class="size-options" id="sizeOptions">
+              <!-- Rendered dynamically -->
+            </div>
+
+            <!-- Note for when a sold-out size is selected -->
+            <div class="modal-size-oos-note" id="modalSizeOosNote">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span id="modalSizeOosText">This size is currently out of stock.</span>
+            </div>
+
+            <!-- Low stock note -->
+            <div class="modal-low-stock-note" id="modalLowStockNote"></div>
+
             <button class="modal-add-btn" id="modalAddToCart">Add to Cart</button>
+            <button class="modal-notify-btn" id="modalNotifyBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              Notify Me When Available
+            </button>
           </div>
 
         </div>
@@ -800,18 +857,14 @@ address { font-style: normal; }
     <div class="insta-popup-overlay" id="instaPopupOverlay" role="dialog" aria-modal="true" aria-label="Send order via Instagram">
       <div class="insta-popup">
         <button class="insta-popup__close" id="instaPopupClose" aria-label="Close">&times;</button>
-
         <div class="insta-popup__icon">
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
           </svg>
         </div>
-
         <h3>Order via Instagram DM</h3>
         <p>Copy your order summary below, then tap <strong>Open Instagram</strong> to send it as a DM.</p>
-
         <div class="insta-popup__summary" id="instaOrderSummary"></div>
-
         <div class="insta-popup__actions">
           <button class="insta-popup__copy-btn" id="instaPopupCopyBtn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -822,7 +875,6 @@ address { font-style: normal; }
             Open Instagram DM
           </a>
         </div>
-
         <p class="insta-popup__note">Paste the copied text in the DM message box after Instagram opens.</p>
       </div>
     </div>
@@ -851,7 +903,7 @@ address { font-style: normal; }
           </address>
         </div>
       </div>
-      <div class="footer__footer__bottom"><p>&copy; 2026 TTH. All rights reserved.</p></div>
+      <div class="footer__bottom"><p>&copy; 2026 TTH. All rights reserved.</p></div>
     </footer>
 
     <script>
@@ -859,6 +911,13 @@ address { font-style: normal; }
 
 /* ============================================================
    PRODUCT CATALOGUE
+   
+   sizes: array of all size options for this product.
+   outOfStockSizes: array of sizes that are currently sold out.
+   lowStockSizes: optional — sizes with very limited stock (shows a warning).
+   
+   To mark a size as out of stock, add it to outOfStockSizes.
+   To mark entire product OOS, put all sizes in outOfStockSizes.
    ============================================================ */
 const PRODUCTS = [
   {
@@ -866,6 +925,9 @@ const PRODUCTS = [
     name: "WASHED STORM BLUE",
     price: 980,
     badge: "New",
+    sizes: ["28", "30", "32", "34"],
+    outOfStockSizes: [],          // Size 32 is sold out
+    lowStockSizes: [],            // Size 30 has limited stock
     description: "Make a statement with our Washed Storm Blue Wide Leg jeans. Featuring a relaxed, wide-leg silhouette with a vintage washed finish, these jeans bring effortless street-style energy to any outfit. The deep storm blue tone fades naturally at the knees and thighs for that worn-in look you'll love on day one.",
     features: ["Wide Leg Fit", "Vintage Wash", "Stretch Denim", "Mid Rise", "5-Pocket Style"],
     image: "washed storm blue 1.PNG",
@@ -882,6 +944,9 @@ const PRODUCTS = [
     name: "ICE BLUE",
     price: 980,
     badge: "New",
+    sizes: ["28", "30", "32", "34"],
+    outOfStockSizes: ["32"],              // All sizes available
+    lowStockSizes: [],
     description: "Clean, crisp, and endlessly versatile — our Ice Blue jeans are a wardrobe essential. The pale, frost-washed denim gives a fresh minimal aesthetic that pairs with everything from oversized tees to tailored jackets. Cut with a slim-straight profile for a modern silhouette that moves with you.",
     features: ["Slim Straight Fit", "Ice Wash", "Comfort Stretch", "Low Rise", "Contrast Stitching"],
     image: "ice blue 1.PNG",
@@ -898,6 +963,9 @@ const PRODUCTS = [
     name: "WASHED BLACK",
     price: 980,
     badge: "New",
+    sizes: ["28", "30", "32", "34"],
+    outOfStockSizes: [],    // Sizes 28 and 34 are sold out
+    lowStockSizes: [],
     description: "The ultimate dark-side essential. Our Washed Black jeans combine the edginess of raw black denim with a softened, worn-in wash that gives them character from day one. Versatile enough for casual days yet sharp enough for nights out — these are the jeans that do it all.",
     features: ["Tapered Fit", "Washed Black", "Premium Denim", "Mid Rise", "Reinforced Seams"],
     image: "washed black 1.PNG",
@@ -910,6 +978,20 @@ const PRODUCTS = [
     ],
   },
 ];
+
+/* ---- Helpers ---- */
+function isSizeOos(product, size) {
+  return (product.outOfStockSizes || []).includes(size);
+}
+function isSizeLowStock(product, size) {
+  return (product.lowStockSizes || []).includes(size);
+}
+function isFullyOos(product) {
+  return (product.outOfStockSizes || []).length >= (product.sizes || []).length;
+}
+function hasAnySizeOos(product) {
+  return (product.outOfStockSizes || []).length > 0;
+}
 
 /* ---- State ---- */
 let cart = [];
@@ -941,7 +1023,11 @@ const modalBadge     = document.getElementById("modalBadge");
 const modalDescription = document.getElementById("modalDescription");
 const modalFeatures  = document.getElementById("modalFeatures");
 const modalAddToCart = document.getElementById("modalAddToCart");
+const modalNotifyBtn = document.getElementById("modalNotifyBtn");
 const sizeOptions    = document.getElementById("sizeOptions");
+const modalSizeOosNote = document.getElementById("modalSizeOosNote");
+const modalSizeOosText = document.getElementById("modalSizeOosText");
+const modalLowStockNote = document.getElementById("modalLowStockNote");
 const galleryMain    = document.getElementById("galleryMain");
 const galleryLabel   = document.getElementById("galleryLabel");
 const galleryThumbs  = document.getElementById("galleryThumbs");
@@ -952,7 +1038,6 @@ const imgLightbox    = document.getElementById("imgLightbox");
 const lightboxClose  = document.getElementById("lightboxClose");
 const lightboxImg    = document.getElementById("lightboxImg");
 
-// Instagram popup elements
 const instaPopupOverlay   = document.getElementById("instaPopupOverlay");
 const instaPopupClose     = document.getElementById("instaPopupClose");
 const instaOrderSummary   = document.getElementById("instaOrderSummary");
@@ -960,27 +1045,45 @@ const instaPopupCopyBtn   = document.getElementById("instaPopupCopyBtn");
 const instaPopupProceedBtn = document.getElementById("instaPopupProceedBtn");
 
 /* ============================================================
-   PRODUCT RENDERING
+   PRODUCT CARD RENDERING — shows per-size availability pills
    ============================================================ */
 function renderProducts() {
-  productGrid.innerHTML = PRODUCTS.map((p) => `
+  productGrid.innerHTML = PRODUCTS.map((p) => {
+    const fullyOos = isFullyOos(p);
+    const someOos  = hasAnySizeOos(p);
+
+    // Size pills for card
+    const sizePills = (p.sizes || []).map(s => {
+      const oos = isSizeOos(p, s);
+      return `<span class="card__size-pip ${oos ? 'out-of-stock' : 'in-stock'}">${s}</span>`;
+    }).join("");
+
+    return `
     <article class="card" data-id="${p.id}" role="button" tabindex="0" aria-label="View ${p.name}">
       <div class="card__img-wrap">
         ${p.badge ? `<span class="card__badge">${p.badge}</span>` : ""}
+        ${someOos && !fullyOos ? `<span class="card__low-stock-badge">Some sizes sold out</span>` : ""}
         <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.style.visibility='hidden'" />
       </div>
       <div class="card__body">
         <h3 class="card__name">${p.name}</h3>
         <p class="card__price">₹${p.price.toFixed(2)}</p>
-        <button class="btn--cart" data-action="open-modal" data-id="${p.id}" aria-label="View ${p.name}">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
-          </svg>
-          Add to Cart
-        </button>
+        <div class="card__sizes">${sizePills}</div>
+        ${fullyOos
+          ? `<button class="btn--oos" disabled aria-label="Out of stock">
+               <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+               All Sizes Sold Out
+             </button>`
+          : `<button class="btn--cart" data-action="open-modal" data-id="${p.id}" aria-label="View ${p.name}">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+               </svg>
+               Add to Cart
+             </button>`
+        }
       </div>
-    </article>
-  `).join("");
+    </article>`;
+  }).join("");
 }
 
 /* ============================================================
@@ -1011,13 +1114,13 @@ function setGallerySlide(index) {
     el.src = item.src;
     el.controls = true;
     el.playsInline = true;
-    el.style.cssText = "width:100%;height:100%;object-fit:cover;display:block;background:#000;";
+    el.style.cssText = "width:100%;height:100%;object-fit:contain;display:block;background:#000;";
     galleryMain.style.cursor = "default";
   } else {
     el = document.createElement("img");
     el.src = item.src;
     el.alt = selectedProduct.name + " " + item.label;
-    el.style.cssText = "width:100%;height:100%;object-fit:cover;display:block;";
+    el.style.cssText = "width:100%;height:100%;object-fit:contain;display:block;";
     el.onerror = function() { this.style.visibility = "hidden"; };
     galleryMain.style.cursor = "zoom-in";
   }
@@ -1069,6 +1172,42 @@ imgLightbox.addEventListener("click", (e) => {
 });
 
 /* ============================================================
+   MODAL SIZE UI — updates dynamically when a size is selected
+   ============================================================ */
+function updateModalSizeUI() {
+  if (!selectedProduct) return;
+  const isOos = selectedSize && isSizeOos(selectedProduct, selectedSize);
+  const isLow = selectedSize && isSizeLowStock(selectedProduct, selectedSize);
+
+  // OOS note
+  if (isOos) {
+    modalSizeOosText.textContent = `Size ${selectedSize} is currently out of stock.`;
+    modalSizeOosNote.classList.add("visible");
+  } else {
+    modalSizeOosNote.classList.remove("visible");
+  }
+
+  // Low stock note
+  if (isLow && !isOos) {
+    modalLowStockNote.textContent = `⚠️ Only a few left in size ${selectedSize} — order soon!`;
+    modalLowStockNote.classList.add("visible");
+  } else {
+    modalLowStockNote.classList.remove("visible");
+  }
+
+  // Add button state
+  if (isOos) {
+    modalAddToCart.textContent = "Size Unavailable";
+    modalAddToCart.disabled = true;
+    modalNotifyBtn.classList.add("visible");
+  } else {
+    modalAddToCart.textContent = selectedSize ? "Add to Cart" : "Select a Size";
+    modalAddToCart.disabled = false;
+    modalNotifyBtn.classList.remove("visible");
+  }
+}
+
+/* ============================================================
    MODAL LOGIC
    ============================================================ */
 function openModal(id) {
@@ -1089,7 +1228,23 @@ function openModal(id) {
     `<span class="modal-feature-tag">${f}</span>`
   ).join("");
 
-  sizeOptions.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+  // Build size buttons with per-size OOS state
+  sizeOptions.innerHTML = (product.sizes || []).map(size => {
+    const oos = isSizeOos(product, size);
+    return `<button
+      data-size="${size}"
+      class="${oos ? 'size-oos' : ''}"
+      ${oos ? 'disabled title="Out of stock"' : ''}
+      aria-label="Size ${size}${oos ? ' - out of stock' : ''}"
+    >${size}</button>`;
+  }).join("");
+
+  // Reset UI states
+  modalSizeOosNote.classList.remove("visible");
+  modalLowStockNote.classList.remove("visible");
+  modalNotifyBtn.classList.remove("visible");
+  modalAddToCart.textContent = "Select a Size";
+  modalAddToCart.disabled = false;
 
   buildGalleryThumbs(product);
   setGallerySlide(0);
@@ -1104,16 +1259,26 @@ function closeModal() {
   if (!cartSidebar.classList.contains("active")) document.body.style.overflow = "";
   selectedProduct = null;
   selectedSize = null;
+  // Clean up modal state
+  modalAddToCart.textContent = "Add to Cart";
+  modalAddToCart.disabled = false;
+  sizeOptions.innerHTML = "";
+  modalSizeOosNote.classList.remove("visible");
+  modalLowStockNote.classList.remove("visible");
+  modalNotifyBtn.classList.remove("visible");
 }
 
+// Size button clicks
 sizeOptions.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-size]");
-  if (!btn) return;
+  if (!btn || btn.disabled) return;
   selectedSize = btn.dataset.size;
   sizeOptions.querySelectorAll("button").forEach(b => b.classList.remove("active"));
   btn.classList.add("active");
+  updateModalSizeUI();
 });
 
+// Add to cart
 modalAddToCart.addEventListener("click", () => {
   if (!selectedProduct) return;
   if (!selectedSize) {
@@ -1123,6 +1288,8 @@ modalAddToCart.addEventListener("click", () => {
     showToast("Please select a size first");
     return;
   }
+  if (isSizeOos(selectedProduct, selectedSize)) return;
+
   const cartKey = `${selectedProduct.id}-${selectedSize}`;
   const existing = cart.find(i => i.cartKey === cartKey);
   if (existing) {
@@ -1134,6 +1301,11 @@ modalAddToCart.addEventListener("click", () => {
   animateBadge();
   showToast(`"${selectedProduct.name}" (Size ${selectedSize}) added to cart`);
   closeModal();
+});
+
+// Notify me
+modalNotifyBtn.addEventListener("click", () => {
+  showToast(`We'll notify you when size ${selectedSize} is back in stock!`);
 });
 
 modalClose.addEventListener("click", closeModal);
@@ -1165,7 +1337,6 @@ function buildOrderMessage() {
 function openInstaPopup() {
   const message = buildOrderMessage();
   instaOrderSummary.textContent = message;
-  instaPopupCopyBtn.textContent = "";
   instaPopupCopyBtn.innerHTML = `
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
     Copy Order Summary`;
@@ -1306,7 +1477,7 @@ function renderCartPanel() {
 
   document.getElementById("checkoutBtn").addEventListener("click", () => {
     const message = buildOrderMessage();
-    const whatsappUrl = `https://wa.me/918650584101?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/919286167058?text=${encodeURIComponent(message)}`;
 
     cartFooter.innerHTML = `
       <div class="cart-total">
@@ -1384,6 +1555,9 @@ function animateBadge() {
    EVENT DELEGATION
    ============================================================ */
 productGrid.addEventListener("click", (e) => {
+  const oosBtn = e.target.closest(".btn--oos");
+  if (oosBtn) return;
+
   const btn = e.target.closest('[data-action="open-modal"]');
   if (btn) { e.stopPropagation(); openModal(parseInt(btn.dataset.id, 10)); return; }
   const card = e.target.closest(".card");
